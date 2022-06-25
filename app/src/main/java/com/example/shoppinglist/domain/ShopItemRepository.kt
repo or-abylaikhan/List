@@ -1,5 +1,7 @@
 package com.example.shoppinglist.domain
 
+import com.example.shoppinglist.data.ShopItem
+
 interface ShopItemRepository {
 
     fun getShopList(): List<ShopItem>
@@ -10,5 +12,5 @@ interface ShopItemRepository {
 
     fun editShopItem(item: ShopItem)
 
-    fun deleteShopItem(id: Int)
+    fun deleteShopItem(item: ShopItem)
 }
