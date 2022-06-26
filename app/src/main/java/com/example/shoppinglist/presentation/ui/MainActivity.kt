@@ -1,7 +1,6 @@
 package com.example.shoppinglist.presentation.ui
 
 import android.os.Bundle
-import com.example.shoppinglist.data.model.ShopItem
 import com.example.shoppinglist.databinding.ActivityMainBinding
 import com.example.shoppinglist.util.BindingActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,9 +18,6 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
         binding.rv.adapter = shopAdapter
         mainViewModel.getShopList().observe(this) {
             shopAdapter.shopList = it
-        }
-        binding.btnAdd.setOnClickListener {
-            mainViewModel.addShopItem(ShopItem(name = "Bread", count = 2, isEnabled = false))
         }
     }
 }

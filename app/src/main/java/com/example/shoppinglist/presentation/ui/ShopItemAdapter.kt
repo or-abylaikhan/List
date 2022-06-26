@@ -6,8 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglist.data.model.ShopItem
 import com.example.shoppinglist.databinding.ItemShopBinding
 
-class ShopItemAdapter() :
-    RecyclerView.Adapter<ShopItemAdapter.ShopItemViewHolder>() {
+class ShopItemAdapter : RecyclerView.Adapter<ShopItemAdapter.ShopItemViewHolder>() {
 
     var shopList: List<ShopItem> = listOf()
         set(value) {
