@@ -4,5 +4,5 @@ import com.example.shoppinglist.domain.ShopItem
 import com.example.shoppinglist.domain.ShopItemRepository
 
 class AddShopItemUseCase(private val shopItemRepository: ShopItemRepository) {
-    fun addShopItem(item: ShopItem) = shopItemRepository.addShopItem(item)
+    suspend fun addShopItem(item: ShopItem) = shopItemRepository.addShopItem(item)
 }

@@ -11,11 +11,11 @@ class ShopItemRepositoryImpl(private val dao: ShopItemDao, private val mapper: S
     override fun getShopList(): LiveData<List<ShopItem>> =
         Transformations.map(dao.getAll()) { mapper.from(it) }
 
-    override fun getShopItem(id: Int): ShopItem = mapper.from(dao.getShopItem(id))
+    override suspend fun getShopItem(id: Int): ShopItem = mapper.from(dao.getShopItem(id))
 
-    override fun addShopItem(item: ShopItem) = dao.insertShopItem(mapper.to(item))
+    override suspend fun addShopItem(item: ShopItem) = dao.insertShopItem(mapper.to(item))
 
-    override fun editShopItem(item: ShopItem) = dao.updateShopItem(mapper.to(item))
+    override suspend fun editShopItem(item: ShopItem) = dao.updateShopItem(mapper.to(item))
 
-    override fun deleteShopItem(item: ShopItem) = dao.deleteShopItem(mapper.to(item))
+    override suspend fun deleteShopItem(item: ShopItem) = dao.deleteShopItem(mapper.to(item))
 }
