@@ -1,4 +1,4 @@
-package com.example.shoppinglist.presentation.ui
+package com.example.shoppinglist.presentation
 
 import android.os.Bundle
 import com.example.shoppinglist.databinding.ActivityMainBinding

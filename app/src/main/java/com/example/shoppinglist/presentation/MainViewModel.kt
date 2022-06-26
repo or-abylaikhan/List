@@ -1,8 +1,8 @@
-package com.example.shoppinglist.presentation.ui
+package com.example.shoppinglist.presentation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.shoppinglist.data.model.ShopItem
+import com.example.shoppinglist.domain.ShopItem
 import com.example.shoppinglist.domain.use_cases.DeleteShopItemUseCase
 import com.example.shoppinglist.domain.use_cases.EditShopItemUseCase
 import com.example.shoppinglist.domain.use_cases.GetShopListUseCase

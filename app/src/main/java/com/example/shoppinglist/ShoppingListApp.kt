@@ -1,10 +1,10 @@
 package com.example.shoppinglist
 
 import android.app.Application
-import com.example.shoppinglist.data.module.databaseModule
-import com.example.shoppinglist.data.module.repositoryModule
-import com.example.shoppinglist.domain.module.useCaseModule
-import com.example.shoppinglist.presentation.module.viewModelModule
+import com.example.shoppinglist.data.databaseModule
+import com.example.shoppinglist.data.repositoryModule
+import com.example.shoppinglist.domain.useCaseModule
+import com.example.shoppinglist.presentation.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin

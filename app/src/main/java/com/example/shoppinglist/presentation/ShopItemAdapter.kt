@@ -1,10 +1,10 @@
-package com.example.shoppinglist.presentation.ui
+package com.example.shoppinglist.presentation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.shoppinglist.data.model.ShopItem
 import com.example.shoppinglist.databinding.ItemShopBinding
+import com.example.shoppinglist.domain.ShopItem
 
 class ShopItemAdapter : RecyclerView.Adapter<ShopItemAdapter.ShopItemViewHolder>() {
 

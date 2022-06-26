@@ -1,4 +1,4 @@
-package com.example.shoppinglist.domain.module
+package com.example.shoppinglist.domain
 
 import com.example.shoppinglist.domain.use_cases.*
 import org.koin.dsl.module
