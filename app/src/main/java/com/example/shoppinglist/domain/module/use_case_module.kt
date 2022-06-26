@@ -1,6 +1,6 @@
 package com.example.shoppinglist.domain.module
 
-import com.example.shoppinglist.domain.*
+import com.example.shoppinglist.domain.use_cases.*
 import org.koin.dsl.module
 
 val useCaseModule = module {

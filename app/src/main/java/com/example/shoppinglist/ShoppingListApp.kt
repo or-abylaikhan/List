@@ -14,8 +14,9 @@ class ShoppingListApp : Application() {
         super.onCreate()
         startKoin {
             androidLogger()
+            val appModule = listOf(databaseModule, repositoryModule, useCaseModule, viewModelModule)
+            modules(appModule)
             androidContext(this@ShoppingListApp)
-            modules(databaseModule, repositoryModule, useCaseModule, viewModelModule)
         }
     }
 }

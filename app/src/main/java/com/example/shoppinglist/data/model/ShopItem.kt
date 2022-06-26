@@ -1,4 +1,4 @@
-package com.example.shoppinglist.data
+package com.example.shoppinglist.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -9,5 +9,5 @@ data class ShopItem(
     val id: Int = 0,
     val name: String,
     val count: Int,
-    val isEnabled: Boolean
+    var isEnabled: Boolean
 )

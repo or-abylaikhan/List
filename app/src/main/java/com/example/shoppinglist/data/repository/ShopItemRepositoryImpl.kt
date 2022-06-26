@@ -1,9 +1,12 @@
-package com.example.shoppinglist.data
+package com.example.shoppinglist.data.repository
 
-import com.example.shoppinglist.domain.ShopItemRepository
+import androidx.lifecycle.LiveData
+import com.example.shoppinglist.data.database.ShopItemDao
+import com.example.shoppinglist.data.model.ShopItem
+import com.example.shoppinglist.domain.repository.ShopItemRepository
 
 class ShopItemRepositoryImpl(private val dao: ShopItemDao) : ShopItemRepository {
-    override fun getShopList(): List<ShopItem> = dao.getAll()
+    override fun getShopList(): LiveData<List<ShopItem>> = dao.getAll()
 
     override fun getShopItem(id: Int): ShopItem = dao.getShopItem(id)
 

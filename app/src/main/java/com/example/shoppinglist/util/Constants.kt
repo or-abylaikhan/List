@@ -1,5 +1,5 @@
 package com.example.shoppinglist.util
 
-object AppConstants {
+object Constants {
     const val DATABASE_NAME = "Shop item database"
 }

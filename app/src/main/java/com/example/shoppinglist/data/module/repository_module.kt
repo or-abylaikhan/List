@@ -1,10 +1,11 @@
 package com.example.shoppinglist.data.module
 
-import com.example.shoppinglist.data.ShopItemRepositoryImpl
+import com.example.shoppinglist.data.repository.ShopItemRepositoryImpl
+import com.example.shoppinglist.domain.repository.ShopItemRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    factory {
+    single<ShopItemRepository>() {
         ShopItemRepositoryImpl(get())
     }
 }

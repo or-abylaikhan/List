@@ -1,10 +1,11 @@
-package com.example.shoppinglist.domain
+package com.example.shoppinglist.domain.repository
 
-import com.example.shoppinglist.data.ShopItem
+import androidx.lifecycle.LiveData
+import com.example.shoppinglist.data.model.ShopItem
 
 interface ShopItemRepository {
 
-    fun getShopList(): List<ShopItem>
+    fun getShopList(): LiveData<List<ShopItem>>
 
     fun getShopItem(id: Int): ShopItem
 
