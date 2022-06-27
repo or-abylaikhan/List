@@ -36,8 +36,10 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
             ) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                mainViewModel.deleteShopItem(adapter?.currentList?.get(viewHolder.adapterPosition)!!)
-                Toast.makeText(baseContext, "Shop item was deleted", Toast.LENGTH_SHORT).show()
+                adapter?.let {
+                    mainViewModel.deleteShopItem(it.currentList[viewHolder.adapterPosition])
+                    Toast.makeText(baseContext, "Shop item was deleted", Toast.LENGTH_SHORT).show()
+                }
             }
         }
         ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.rv)
@@ -45,7 +47,14 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
             mainViewModel.changedEnabledState(it)
         }
         adapter?.onShopItemClickListener = {
-            Toast.makeText(baseContext, it.toString(), Toast.LENGTH_SHORT).show()
+
+        }
+        binding.btnAdd.setOnClickListener {
+            val bottomSheet = SaveItemBottomSheet()
+            bottomSheet.onSaveButtonClickListener = {
+                mainViewModel.addShopItem(it)
+            }
+            bottomSheet.show(supportFragmentManager, SaveItemBottomSheet::class.java.name)
         }
     }
 }

@@ -4,5 +4,6 @@ data class ShopItem(
     val id: Int = 0,
     val name: String,
     val count: Int,
-    var isEnabled: Boolean
+    val description: String,
+    var isActive: Boolean
 )

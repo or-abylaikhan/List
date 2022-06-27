@@ -32,7 +32,7 @@ class ShopListAdapter :
     }
 
     override fun getItemViewType(position: Int) =
-        if (getItem(position).isEnabled) ENABLED else DISABLED
+        if (getItem(position).isActive) ENABLED else DISABLED
 
     inner class ShopItemViewHolder(private val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -42,19 +42,16 @@ class ShopListAdapter :
                     binding.apply {
                         itemName.text = shopItem.name
                         itemCount.text = shopItem.count.toString()
-                        root.setOnClickListener {
-                            onShopItemClickListener?.invoke(shopItem)
-                        }
-                        root.setOnLongClickListener {
-                            onShopItemLongClickListener?.invoke(shopItem)
-                            true
-                        }
+                        itemDesc.text = shopItem.description
+                        root.setOnClickListener { onShopItemClickListener?.invoke(shopItem) }
+                        root.setOnLongClickListener { onShopItemLongClickListener?.invoke(shopItem); true }
                     }
                 }
                 is ItemShopDisabledBinding -> {
                     binding.apply {
                         itemName.text = shopItem.name
                         itemCount.text = shopItem.count.toString()
+                        itemDesc.text = shopItem.description
                         root.setOnClickListener {
                             onShopItemClickListener?.invoke(shopItem)
                         }
