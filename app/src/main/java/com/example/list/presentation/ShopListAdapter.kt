@@ -52,13 +52,8 @@ class ShopListAdapter :
                         itemName.text = shopItem.name
                         itemCount.text = shopItem.count.toString()
                         itemDesc.text = shopItem.description
-                        root.setOnClickListener {
-                            onShopItemClickListener?.invoke(shopItem)
-                        }
-                        root.setOnLongClickListener {
-                            onShopItemLongClickListener?.invoke(shopItem)
-                            true
-                        }
+                        root.setOnClickListener { onShopItemClickListener?.invoke(shopItem) }
+                        root.setOnLongClickListener { onShopItemLongClickListener?.invoke(shopItem); true }
                     }
                 }
             }

@@ -21,8 +21,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
     private fun initViews() {
         adapter = ShopListAdapter()
         binding.rv.adapter = adapter
-        mainViewModel.getShopList().observe(this) {
-            adapter?.submitList(it)
+        mainViewModel.getShopList().observe(this) { list ->
+            adapter?.submitList(list.sortedByDescending { it.isActive })
         }
     }
 
