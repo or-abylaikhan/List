@@ -37,24 +37,38 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 adapter?.let {
-                    mainViewModel.deleteShopItem(it.currentList[viewHolder.adapterPosition])
-                    Toast.makeText(baseContext, "Shop item was deleted", Toast.LENGTH_SHORT).show()
+                    val item = it.currentList[viewHolder.adapterPosition]
+                    mainViewModel.deleteShopItem(item)
+                    Toast.makeText(baseContext, "${item.name} item was deleted", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
         ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.rv)
         adapter?.onShopItemLongClickListener = {
             mainViewModel.changedEnabledState(it)
+            Toast.makeText(
+                baseContext,
+                "${it.name} item was ${if (it.isActive) "disabled" else "enabled"}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
-        adapter?.onShopItemClickListener = {
-
+        adapter?.onShopItemClickListener = { shopItem ->
+            val bottomSheet = SaveItemBottomSheet(shopItem)
+            bottomSheet.onSaveButtonClickListener = {
+                mainViewModel.editShopItem(it)
+                Toast.makeText(baseContext, "${it.name} item was updated", Toast.LENGTH_SHORT)
+                    .show()
+            }
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
         binding.btnAdd.setOnClickListener {
             val bottomSheet = SaveItemBottomSheet()
             bottomSheet.onSaveButtonClickListener = {
                 mainViewModel.addShopItem(it)
+                Toast.makeText(baseContext, "${it.name} item was added", Toast.LENGTH_SHORT).show()
             }
-            bottomSheet.show(supportFragmentManager, SaveItemBottomSheet::class.java.name)
+            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }
     }
 }
