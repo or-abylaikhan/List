@@ -25,6 +25,12 @@ class MainViewModel(
         }
     }
 
+    fun editShopItem(item: ShopItem) {
+        viewModelScope.launch {
+            editShopItemUseCase.editShopItem(item)
+        }
+    }
+
     fun changedEnabledState(item: ShopItem) {
         viewModelScope.launch {
             editShopItemUseCase.editShopItem(item.copy(isActive = !item.isActive))

@@ -1,8 +1,6 @@
 package com.example.list.presentation
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +8,14 @@ import android.widget.Toast
 import com.example.list.R
 import com.example.list.databinding.BottomSheetShopItemBinding
 import com.example.list.domain.ShopItem
+import com.example.list.util.toEditable
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SaveItemBottomSheet : BottomSheetDialogFragment() {
+class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetDialogFragment() {
+
+    companion object {
+        const val TAG = "SaveItemBottomSheet"
+    }
 
     private var binding: BottomSheetShopItemBinding? = null
     var onSaveButtonClickListener: ((ShopItem) -> Unit)? = null
@@ -30,29 +33,47 @@ class SaveItemBottomSheet : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        shopItem?.let {
+            binding?.apply {
+                etItemName.text = shopItem.name.toEditable()
+                etItemCount.text = shopItem.count.toString().toEditable()
+                etItemDesc.text = shopItem.description.toEditable()
+            }
+        }
         setupListeners()
     }
 
     private fun setupListeners() {
         binding?.apply {
             btnCancel.setOnClickListener { dismiss() }
-            etItemName.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-                override fun afterTextChanged(p0: Editable?) {}
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-            })
             btnSave.setOnClickListener {
-                onSaveButtonClickListener?.invoke(
-                    ShopItem(
-                        name = etItemName.text.toString(),
-                        count = etItemCount.text.toString().toInt(),
-                        description = etItemDesc.text.toString(),
-                        isActive = true
-                    )
-                )
-                dismiss()
-                Toast.makeText(context, "Item was saved", Toast.LENGTH_SHORT).show()
+                val name = etItemName.text.toString().trim()
+                val count = etItemCount.text.toString()
+                val desc = etItemDesc.text.toString().trim()
+                if (isInputValid(name, count, desc)) {
+                    var item: ShopItem = if (shopItem != null)
+                        ShopItem(shopItem.id, name, count.toInt(), desc, shopItem.isActive)
+                    else
+                        ShopItem(0, name, count.toInt(), desc, true)
+                    onSaveButtonClickListener?.invoke(item)
+                    dismiss()
+                } else {
+                    Toast.makeText(context, "Input is invalid!", Toast.LENGTH_SHORT).show()
+                }
             }
         }
+    }
+
+    private fun isInputValid(name: String, count: String, desc: String): Boolean {
+        var nameIsValid = false
+        var countIsValid = false
+        var descIsValid = false
+        if (name != "null" && name.isNotBlank())
+            nameIsValid = true
+        if (count != "null" && count.isNotEmpty() && count.all { it.isDigit() })
+            countIsValid = true
+        if (desc != "null" && desc.isNotBlank())
+            descIsValid = true
+        return nameIsValid && countIsValid && descIsValid
     }
 }

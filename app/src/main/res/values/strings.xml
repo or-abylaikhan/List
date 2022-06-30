@@ -6,4 +6,8 @@
     <string name="description">Description</string>
     <string name="save">Save</string>
     <string name="save_item">Save item</string>
+    <string name="invalid_name">Invalid name</string>
+    <string name="invalid_count">Invalid count</string>
+    <string name="invalid_desc">Invalid description</string>
+    <string name="close_bottom_sheet">Close bottom sheet</string>
 </resources>
