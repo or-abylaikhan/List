@@ -1,4 +1,4 @@
-package com.example.list.domain
+package com.example.list.domain.model
 
 data class ShopItem(
     val id: Int = 0,

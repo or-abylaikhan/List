@@ -1,4 +1,4 @@
-package com.example.list.presentation
+package com.example.list.presentation.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.example.list.databinding.ItemShopDisabledBinding
 import com.example.list.databinding.ItemShopEnabledBinding
-import com.example.list.domain.ShopItem
+import com.example.list.domain.model.ShopItem
 
 class ShopListAdapter :
     ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>(ShopItemDiffCallBack()) {

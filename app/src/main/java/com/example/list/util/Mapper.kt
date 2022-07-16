@@ -1,4 +1,4 @@
-package com.example.list.domain
+package com.example.list.util
 
 interface Mapper<N, M> {
 

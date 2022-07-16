@@ -1,4 +1,4 @@
-package com.example.list.presentation
+package com.example.list.presentation.ui
 
 import android.os.Bundle
 import android.widget.Toast

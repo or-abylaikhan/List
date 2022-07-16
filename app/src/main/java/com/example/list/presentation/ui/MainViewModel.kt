@@ -1,13 +1,13 @@
-package com.example.list.presentation
+package com.example.list.presentation.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.list.domain.ShopItem
-import com.example.list.domain.use_cases.AddShopItemUseCase
-import com.example.list.domain.use_cases.DeleteShopItemUseCase
-import com.example.list.domain.use_cases.EditShopItemUseCase
-import com.example.list.domain.use_cases.GetShopListUseCase
+import com.example.list.domain.model.ShopItem
+import com.example.list.domain.use_case.AddShopItemUseCase
+import com.example.list.domain.use_case.DeleteShopItemUseCase
+import com.example.list.domain.use_case.EditShopItemUseCase
+import com.example.list.domain.use_case.GetShopListUseCase
 import kotlinx.coroutines.launch
 
 class MainViewModel(

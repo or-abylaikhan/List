@@ -1,4 +1,4 @@
-package com.example.list.presentation
+package com.example.list.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.list.R
 import com.example.list.databinding.BottomSheetShopItemBinding
-import com.example.list.domain.ShopItem
+import com.example.list.domain.model.ShopItem
 import com.example.list.util.toEditable
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -15,6 +15,19 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
 
     companion object {
         const val TAG = "SaveItemBottomSheet"
+
+        private fun isInputValid(name: String, count: String, desc: String): Boolean {
+            var nameIsValid = false
+            var countIsValid = false
+            var descIsValid = false
+            if (name != "null" && name.isNotBlank())
+                nameIsValid = true
+            if (count != "null" && count.isNotEmpty() && count.all { it.isDigit() })
+                countIsValid = true
+            if (desc != "null" && desc.isNotBlank())
+                descIsValid = true
+            return nameIsValid && countIsValid && descIsValid
+        }
     }
 
     private var binding: BottomSheetShopItemBinding? = null
@@ -51,7 +64,7 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
                 val count = etItemCount.text.toString()
                 val desc = etItemDesc.text.toString().trim()
                 if (isInputValid(name, count, desc)) {
-                    var item: ShopItem = if (shopItem != null)
+                    val item: ShopItem = if (shopItem != null)
                         ShopItem(shopItem.id, name, count.toInt(), desc, shopItem.isActive)
                     else
                         ShopItem(0, name, count.toInt(), desc, true)
@@ -62,18 +75,5 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
                 }
             }
         }
-    }
-
-    private fun isInputValid(name: String, count: String, desc: String): Boolean {
-        var nameIsValid = false
-        var countIsValid = false
-        var descIsValid = false
-        if (name != "null" && name.isNotBlank())
-            nameIsValid = true
-        if (count != "null" && count.isNotEmpty() && count.all { it.isDigit() })
-            countIsValid = true
-        if (desc != "null" && desc.isNotBlank())
-            descIsValid = true
-        return nameIsValid && countIsValid && descIsValid
     }
 }

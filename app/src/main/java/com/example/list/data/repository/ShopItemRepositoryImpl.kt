@@ -1,10 +1,11 @@
-package com.example.list.data
+package com.example.list.data.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.example.list.data.database.ShopItemDao
-import com.example.list.domain.ShopItem
-import com.example.list.domain.ShopItemRepository
+import com.example.list.data.mapper.ShopItemMapper
+import com.example.list.domain.model.ShopItem
+import com.example.list.domain.repository.ShopItemRepository
 
 class ShopItemRepositoryImpl(private val dao: ShopItemDao, private val mapper: ShopItemMapper) :
     ShopItemRepository {
