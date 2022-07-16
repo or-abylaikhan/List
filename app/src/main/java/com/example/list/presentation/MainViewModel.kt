@@ -20,26 +20,18 @@ class MainViewModel(
     fun getShopList(): LiveData<List<ShopItem>> = getShopListUseCase.getShopList()
 
     fun addShopItem(item: ShopItem) {
-        viewModelScope.launch {
-            addShopItemUseCase.addShopItem(item)
-        }
+        viewModelScope.launch { addShopItemUseCase.addShopItem(item) }
     }
 
     fun editShopItem(item: ShopItem) {
-        viewModelScope.launch {
-            editShopItemUseCase.editShopItem(item)
-        }
+        viewModelScope.launch { editShopItemUseCase.editShopItem(item) }
     }
 
     fun changedEnabledState(item: ShopItem) {
-        viewModelScope.launch {
-            editShopItemUseCase.editShopItem(item.copy(isActive = !item.isActive))
-        }
+        viewModelScope.launch { editShopItemUseCase.editShopItem(item.copy(isActive = !item.isActive)) }
     }
 
     fun deleteShopItem(item: ShopItem) {
-        viewModelScope.launch {
-            deleteShopItemUseCase.deleteShopItem(item)
-        }
+        viewModelScope.launch { deleteShopItemUseCase.deleteShopItem(item) }
     }
 }
