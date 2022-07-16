@@ -1,8 +1,9 @@
 package com.example.list
 
 import android.app.Application
-import com.example.list.data.databaseModule
-import com.example.list.data.repositoryModule
+import com.example.list.data.module.databaseModule
+import com.example.list.data.module.mapperModule
+import com.example.list.data.module.repositoryModule
 import com.example.list.domain.useCaseModule
 import com.example.list.presentation.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -14,7 +15,13 @@ class ListApp : Application() {
         super.onCreate()
         startKoin {
             androidLogger()
-            val appModule = listOf(databaseModule, repositoryModule, useCaseModule, viewModelModule)
+            val appModule = listOf(
+                databaseModule,
+                repositoryModule,
+                mapperModule,
+                useCaseModule,
+                viewModelModule
+            )
             modules(appModule)
             androidContext(this@ListApp)
         }

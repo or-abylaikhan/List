@@ -2,6 +2,7 @@ package com.example.list.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
+import com.example.list.data.database.ShopItemDao
 import com.example.list.domain.ShopItem
 import com.example.list.domain.ShopItemRepository
 
