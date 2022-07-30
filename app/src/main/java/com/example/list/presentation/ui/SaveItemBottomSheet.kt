@@ -14,8 +14,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetDialogFragment() {
 
     companion object {
-        const val TAG = "SaveItemBottomSheet"
-
         private fun isInputValid(name: String, count: String, desc: String): Boolean {
             var nameIsValid = false
             var countIsValid = false
