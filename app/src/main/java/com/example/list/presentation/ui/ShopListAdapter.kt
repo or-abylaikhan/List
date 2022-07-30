@@ -11,6 +11,7 @@ import com.example.list.domain.model.ShopItem
 
 class ShopListAdapter :
     ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>(ShopItemDiffCallBack()) {
+
     companion object {
         const val ENABLED = 1
         const val DISABLED = 0
@@ -27,9 +28,9 @@ class ShopListAdapter :
                 ItemShopDisabledBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
-    override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ShopItemViewHolder, position: Int) =
         holder.bind(getItem(position))
-    }
+
 
     override fun getItemViewType(position: Int) =
         if (getItem(position).isActive) ENABLED else DISABLED
