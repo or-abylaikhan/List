@@ -10,7 +10,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     private val mainViewModel: MainViewModel by viewModel()
-    private lateinit var adapter: ShopListAdapter
+    private var adapter: ShopListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,17 +20,20 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
     }
 
     private fun initViews() {
-        binding.rv.adapter = ShopListAdapter(
+        adapter = ShopListAdapter(
+            onShopItemLongClickListener = { mainViewModel.changedEnabledState(it) },
             onShopItemClickListener = { shopItem ->
-                val bottomSheet = SaveItemBottomSheet({ mainViewModel.editShopItem(it) }, shopItem)
-                bottomSheet.show(supportFragmentManager, bottomSheet.tag)
-            },
-            onShopItemLongClickListener = { mainViewModel.changedEnabledState(it) }
+                SaveItemBottomSheet({ mainViewModel.editShopItem(it) }, shopItem).show(
+                    supportFragmentManager,
+                    SaveItemBottomSheet.TAG
+                )
+            }
         )
+        binding.rv.adapter = adapter
     }
 
     private fun setupListeners() {
-        val simpleCallback = object :
+        ItemTouchHelper(object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -39,16 +42,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
             ) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                mainViewModel.deleteShopItem(adapter.currentList[viewHolder.adapterPosition])
+                adapter?.let { mainViewModel.deleteShopItem(it.currentList[viewHolder.adapterPosition]) }
             }
-        }
-        ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.rv)
+        }).attachToRecyclerView(binding.rv)
         binding.btnAdd.setOnClickListener {
-            val bottomSheet = SaveItemBottomSheet({ mainViewModel.addShopItem(it) })
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+            SaveItemBottomSheet(onSaveButtonClickListener = { mainViewModel.addShopItem(it) }).show(
+                supportFragmentManager,
+                SaveItemBottomSheet.TAG
+            )
         }
     }
 
     private fun setupObservers() =
-        mainViewModel.getShopList().observe(this) { adapter.submitList(it) }
+        mainViewModel.getShopList().observe(this) { adapter?.submitList(it) }
 }

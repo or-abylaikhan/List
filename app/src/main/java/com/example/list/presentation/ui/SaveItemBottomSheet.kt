@@ -17,6 +17,7 @@ class SaveItemBottomSheet(
 ) : BottomSheetDialogFragment() {
 
     companion object {
+        val TAG = this::class.simpleName
         private fun isInputValid(name: String, count: String, desc: String): Boolean {
             var nameIsValid = false
             var countIsValid = false
@@ -61,15 +62,15 @@ class SaveItemBottomSheet(
             btnCancel.setOnClickListener { dismiss() }
             btnSave.setOnClickListener {
                 val name = etItemName.text.toString().trim()
-                val count = etItemCount.text.toString().toInt()
+                val count = etItemCount.text.toString()
                 val desc = etItemDesc.text.toString().trim()
-                if (isInputValid(name, count.toString(), desc)) {
+                if (isInputValid(name, count, desc)) {
                     val item: ShopItem =
                         if (shopItem != null)
-                            ShopItem(shopItem.id, name, count, desc, shopItem.isActive)
+                            ShopItem(shopItem.id, name, count.toInt(), desc, shopItem.isActive)
                         else
-                            ShopItem(name = name, count = count, description = desc)
-                    onSaveButtonClickListener(item)
+                            ShopItem(name = name, count = count.toInt(), description = desc)
+                    onSaveButtonClickListener.invoke(item)
                     dismiss()
                 } else
                     Toast.makeText(context, "Input is invalid!", Toast.LENGTH_SHORT).show()

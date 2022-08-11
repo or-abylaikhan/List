@@ -9,6 +9,8 @@ import androidx.viewbinding.ViewBinding
 import com.example.list.databinding.ItemShopDisabledBinding
 import com.example.list.databinding.ItemShopEnabledBinding
 import com.example.list.domain.model.ShopItem
+import com.example.list.util.Constants.DISABLED
+import com.example.list.util.Constants.ENABLED
 
 class ShopListAdapter(
     private var onShopItemLongClickListener: ((ShopItem) -> Unit),
@@ -16,14 +18,9 @@ class ShopListAdapter(
 ) : ListAdapter<ShopItem, ShopListAdapter.ShopItemViewHolder>(
     object : DiffUtil.ItemCallback<ShopItem>() {
         override fun areItemsTheSame(old: ShopItem, new: ShopItem) = old.id == new.id
-        override fun areContentsTheSame(oldItem: ShopItem, newItem: ShopItem) = oldItem == newItem
+        override fun areContentsTheSame(old: ShopItem, new: ShopItem) = old == new
     }
 ) {
-
-    companion object {
-        const val ENABLED = 1
-        const val DISABLED = 0
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShopItemViewHolder =
         ShopItemViewHolder(
@@ -49,8 +46,8 @@ class ShopListAdapter(
                         itemName.text = shopItem.name
                         itemCount.text = shopItem.count.toString()
                         itemDesc.text = shopItem.description
-                        root.setOnClickListener { onShopItemClickListener(shopItem) }
-                        root.setOnLongClickListener { onShopItemLongClickListener(shopItem); true }
+                        root.setOnClickListener { onShopItemClickListener.invoke(shopItem) }
+                        root.setOnLongClickListener { onShopItemLongClickListener.invoke(shopItem); true }
                     }
                 }
                 is ItemShopDisabledBinding -> {
@@ -58,8 +55,8 @@ class ShopListAdapter(
                         itemName.text = shopItem.name
                         itemCount.text = shopItem.count.toString()
                         itemDesc.text = shopItem.description
-                        root.setOnClickListener { onShopItemClickListener(shopItem) }
-                        root.setOnLongClickListener { onShopItemLongClickListener(shopItem); true }
+                        root.setOnClickListener { onShopItemClickListener.invoke(shopItem) }
+                        root.setOnLongClickListener { onShopItemLongClickListener.invoke(shopItem); true }
                     }
                 }
             }

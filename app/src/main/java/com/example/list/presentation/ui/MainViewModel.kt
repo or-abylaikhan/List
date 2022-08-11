@@ -1,5 +1,6 @@
 package com.example.list.presentation.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,22 +13,21 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val getShopListUseCase: GetShopListUseCase,
-    private val editShopItemUseCase: EditShopItemUseCase,
-    private val deleteShopItemUseCase: DeleteShopItemUseCase,
-    private val addShopItemUseCase: AddShopItemUseCase
+    private val editUseCase: EditShopItemUseCase,
+    private val deleteUseCase: DeleteShopItemUseCase,
+    private val addUseCase: AddShopItemUseCase
 ) : ViewModel() {
 
-    fun getShopList() =
+    fun getShopList(): LiveData<List<ShopItem>> =
         Transformations.map(getShopListUseCase.getShopList()) { list -> list.sortedByDescending { it.isActive } }
 
-    fun addShopItem(item: ShopItem) = viewModelScope.launch { addShopItemUseCase.addShopItem(item) }
+    fun addShopItem(item: ShopItem) = viewModelScope.launch { addUseCase.addShopItem(item) }
 
-    fun editShopItem(item: ShopItem) =
-        viewModelScope.launch { editShopItemUseCase.editShopItem(item) }
+    fun editShopItem(item: ShopItem) = viewModelScope.launch { editUseCase.editShopItem(item) }
 
     fun changedEnabledState(item: ShopItem) =
-        viewModelScope.launch { editShopItemUseCase.editShopItem(item.copy(isActive = !item.isActive)) }
+        viewModelScope.launch { editUseCase.editShopItem(item.copy(isActive = !item.isActive)) }
 
     fun deleteShopItem(item: ShopItem) =
-        viewModelScope.launch { deleteShopItemUseCase.deleteShopItem(item) }
+        viewModelScope.launch { deleteUseCase.deleteShopItem(item) }
 }
