@@ -11,7 +11,10 @@ import com.example.list.domain.model.ShopItem
 import com.example.list.util.toEditable
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetDialogFragment() {
+class SaveItemBottomSheet(
+    private var onSaveButtonClickListener: ((ShopItem) -> Unit),
+    private val shopItem: ShopItem? = null
+) : BottomSheetDialogFragment() {
 
     companion object {
         private fun isInputValid(name: String, count: String, desc: String): Boolean {
@@ -29,7 +32,6 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
     }
 
     private var binding: BottomSheetShopItemBinding? = null
-    var onSaveButtonClickListener: ((ShopItem) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,18 +61,18 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
             btnCancel.setOnClickListener { dismiss() }
             btnSave.setOnClickListener {
                 val name = etItemName.text.toString().trim()
-                val count = etItemCount.text.toString()
+                val count = etItemCount.text.toString().toInt()
                 val desc = etItemDesc.text.toString().trim()
-                if (isInputValid(name, count, desc)) {
-                    val item: ShopItem = if (shopItem != null)
-                        ShopItem(shopItem.id, name, count.toInt(), desc, shopItem.isActive)
-                    else
-                        ShopItem(0, name, count.toInt(), desc, true)
-                    onSaveButtonClickListener?.invoke(item)
+                if (isInputValid(name, count.toString(), desc)) {
+                    val item: ShopItem =
+                        if (shopItem != null)
+                            ShopItem(shopItem.id, name, count, desc, shopItem.isActive)
+                        else
+                            ShopItem(name = name, count = count, description = desc)
+                    onSaveButtonClickListener(item)
                     dismiss()
-                } else {
+                } else
                     Toast.makeText(context, "Input is invalid!", Toast.LENGTH_SHORT).show()
-                }
             }
         }
     }

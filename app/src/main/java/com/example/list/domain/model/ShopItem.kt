@@ -5,5 +5,5 @@ data class ShopItem(
     val name: String,
     val count: Int,
     val description: String,
-    var isActive: Boolean
+    var isActive: Boolean = true
 )
