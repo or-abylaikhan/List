@@ -23,10 +23,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
         adapter = ShopListAdapter(
             onShopItemLongClickListener = { mainViewModel.changedEnabledState(it) },
             onShopItemClickListener = { shopItem ->
-                SaveItemBottomSheet({ mainViewModel.editShopItem(it) }, shopItem).show(
-                    supportFragmentManager,
-                    SaveItemBottomSheet.TAG
-                )
+                SaveItemBottomSheet({ mainViewModel.editShopItem(it) }, shopItem)
+                    .show(supportFragmentManager, SaveItemBottomSheet.TAG)
             }
         )
         binding.rv.adapter = adapter
@@ -46,10 +44,8 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
             }
         }).attachToRecyclerView(binding.rv)
         binding.btnAdd.setOnClickListener {
-            SaveItemBottomSheet(onSaveButtonClickListener = { mainViewModel.addShopItem(it) }).show(
-                supportFragmentManager,
-                SaveItemBottomSheet.TAG
-            )
+            SaveItemBottomSheet(onSaveButtonClickListener = { mainViewModel.addShopItem(it) })
+                .show(supportFragmentManager, SaveItemBottomSheet.TAG)
         }
     }
 
