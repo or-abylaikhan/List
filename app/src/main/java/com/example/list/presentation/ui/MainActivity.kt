@@ -1,7 +1,6 @@
 package com.example.list.presentation.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.list.databinding.ActivityMainBinding
@@ -9,6 +8,7 @@ import com.example.list.util.BindingActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
+
     private val mainViewModel: MainViewModel by viewModel()
     private var adapter: ShopListAdapter? = null
 
@@ -16,18 +16,24 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
         super.onCreate(savedInstanceState)
         initViews()
         setupListeners()
+        setupObservers()
     }
 
     private fun initViews() {
-        adapter = ShopListAdapter()
+        adapter = ShopListAdapter(
+            onShopItemLongClickListener = { mainViewModel.changedEnabledState(it) },
+            onShopItemClickListener = { shopItem ->
+                SaveItemBottomSheet({ mainViewModel.editShopItem(it) }, shopItem).show(
+                    supportFragmentManager,
+                    SaveItemBottomSheet.TAG
+                )
+            }
+        )
         binding.rv.adapter = adapter
-        mainViewModel.getShopList().observe(this) { list ->
-            adapter?.submitList(list.sortedByDescending { it.isActive })
-        }
     }
 
     private fun setupListeners() {
-        val simpleCallback = object :
+        ItemTouchHelper(object :
             ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.START or ItemTouchHelper.END) {
             override fun onMove(
                 recyclerView: RecyclerView,
@@ -36,39 +42,17 @@ class MainActivity : BindingActivity<ActivityMainBinding>(ActivityMainBinding::i
             ) = false
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                adapter?.let {
-                    val item = it.currentList[viewHolder.adapterPosition]
-                    mainViewModel.deleteShopItem(item)
-                    Toast.makeText(baseContext, "${item.name} item was deleted", Toast.LENGTH_SHORT)
-                        .show()
-                }
+                adapter?.let { mainViewModel.deleteShopItem(it.currentList[viewHolder.adapterPosition]) }
             }
-        }
-        ItemTouchHelper(simpleCallback).attachToRecyclerView(binding.rv)
-        adapter?.onShopItemLongClickListener = {
-            mainViewModel.changedEnabledState(it)
-            Toast.makeText(
-                baseContext,
-                "${it.name} item was ${if (it.isActive) "disabled" else "enabled"}",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-        adapter?.onShopItemClickListener = { shopItem ->
-            val bottomSheet = SaveItemBottomSheet(shopItem)
-            bottomSheet.onSaveButtonClickListener = {
-                mainViewModel.editShopItem(it)
-                Toast.makeText(baseContext, "${it.name} item was updated", Toast.LENGTH_SHORT)
-                    .show()
-            }
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
-        }
+        }).attachToRecyclerView(binding.rv)
         binding.btnAdd.setOnClickListener {
-            val bottomSheet = SaveItemBottomSheet()
-            bottomSheet.onSaveButtonClickListener = {
-                mainViewModel.addShopItem(it)
-                Toast.makeText(baseContext, "${it.name} item was added", Toast.LENGTH_SHORT).show()
-            }
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
+            SaveItemBottomSheet(onSaveButtonClickListener = { mainViewModel.addShopItem(it) }).show(
+                supportFragmentManager,
+                SaveItemBottomSheet.TAG
+            )
         }
     }
+
+    private fun setupObservers() =
+        mainViewModel.getShopList().observe(this) { adapter?.submitList(it) }
 }

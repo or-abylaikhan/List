@@ -11,9 +11,13 @@ import com.example.list.domain.model.ShopItem
 import com.example.list.util.toEditable
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetDialogFragment() {
+class SaveItemBottomSheet(
+    private var onSaveButtonClickListener: ((ShopItem) -> Unit),
+    private val shopItem: ShopItem? = null
+) : BottomSheetDialogFragment() {
 
     companion object {
+        val TAG = this::class.simpleName
         private fun isInputValid(name: String, count: String, desc: String): Boolean {
             var nameIsValid = false
             var countIsValid = false
@@ -29,7 +33,6 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
     }
 
     private var binding: BottomSheetShopItemBinding? = null
-    var onSaveButtonClickListener: ((ShopItem) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,15 +65,15 @@ class SaveItemBottomSheet(private val shopItem: ShopItem? = null) : BottomSheetD
                 val count = etItemCount.text.toString()
                 val desc = etItemDesc.text.toString().trim()
                 if (isInputValid(name, count, desc)) {
-                    val item: ShopItem = if (shopItem != null)
-                        ShopItem(shopItem.id, name, count.toInt(), desc, shopItem.isActive)
-                    else
-                        ShopItem(0, name, count.toInt(), desc, true)
-                    onSaveButtonClickListener?.invoke(item)
+                    val item: ShopItem =
+                        if (shopItem != null)
+                            ShopItem(shopItem.id, name, count.toInt(), desc, shopItem.isActive)
+                        else
+                            ShopItem(name = name, count = count.toInt(), description = desc)
+                    onSaveButtonClickListener.invoke(item)
                     dismiss()
-                } else {
+                } else
                     Toast.makeText(context, "Input is invalid!", Toast.LENGTH_SHORT).show()
-                }
             }
         }
     }
